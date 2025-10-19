@@ -1,5 +1,6 @@
-.scene-canvas {
+:host, .scene-canvas {
+  // Make the canvas fill its container (the .scene-wrapper)
   width: 100%;
-  height: 100vh; /* Make it take the full viewport height */
+  height: 100%;
   display: block;
 }
