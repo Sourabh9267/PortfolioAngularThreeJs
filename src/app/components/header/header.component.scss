@@ -1,0 +1,146 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  color: var(--text-color);
+  pointer-events: all;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.desktop-nav ul {
+  position: relative;
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 99px;
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(5px);
+}
+
+.nav-link {
+  position: relative;
+  z-index: 2;
+  text-decoration: none;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.4s ease;
+}
+
+.nav-link.active {
+  color: #111;
+}
+
+.active-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--accent-color);
+  border-radius: 99px;
+  z-index: 1;
+}
+
+// --- MOBILE STYLES ---
+.mobile-toggler {
+  display: none; // Hidden on desktop
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  width: 30px;
+  height: 24px;
+  position: relative;
+}
+
+.hamburger, .hamburger::before, .hamburger::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: var(--text-color);
+  transition: transform 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+}
+
+.hamburger {
+  top: 11px;
+}
+.hamburger::before {
+  top: -10px;
+}
+.hamburger::after {
+  bottom: -10px;
+}
+
+// Toggler X-state
+.mobile-toggler.active .hamburger {
+  background-color: transparent;
+}
+.mobile-toggler.active .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.mobile-toggler.active .hamburger::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  
+  &.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-nav { display: none; }
+  .mobile-toggler { display: block; }
+  
+  .mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+  }
+  .mobile-menu a {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 1rem 0;
+  }
+}

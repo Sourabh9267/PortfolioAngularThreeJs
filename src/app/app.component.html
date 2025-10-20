@@ -1,34 +1,49 @@
-<!-- The Loader (no changes needed) -->
-<app-words-loader *ngIf="!isLoaderDestroyed" [isLoading]="isLoading" (onLoaderHidden)="onLoaderAnimationFinish()"></app-words-loader>
+<app-header></app-header>
 
-<div class="content-wrapper" [style.opacity]="isLoaderDestroyed ? 1 : 0">
+<app-words-loader 
+  *ngIf="!isLoaderDestroyed"
+  [isLoading]="isLoading" 
+  (onLoaderHidden)="onLoaderAnimationFinish()">
+</app-words-loader>
 
-  <!-- HERO SECTION -->
-  <header class="hero-section">
+<div class.bind="content-wrapper" [style.opacity]="isLoaderDestroyed ? 1 : 0">
+
+  <section id="home" data-section class="hero-section">
     <div class="hero-left">
       <h1>Hey, I'm <br><strong>Sourabh Gour</strong></h1>
     </div>
-
     <div class="hero-center">
-      <app-scene></app-scene>
+      <!-- Added the event listener here -->
+      <app-scene (onSceneReady)="onSceneInitialized()"></app-scene>
     </div>
-
     <div class="hero-right">
       <p>I'm a</p>
       <app-word-cycler></app-word-cycler>
     </div>
-  </header>
+  </section>
 
-  <!-- SCROLLABLE CONTENT -->
   <main class="main-content">
-    <section class="about-section">
+    <section id="about" data-section class="about-section">
       <h2>ABOUT ME</h2>
-      <p>A passionate developer and designer with a keen eye for creating engaging and beautiful digital experiences. My expertise lies in building dynamic web applications with a focus on fluid animations and intuitive user interfaces.</p>
+      <p>A passionate developer and designer...</p>
       <h3>SKILLS: Angular, TypeScript, Three.js, GSAP, SCSS</h3>
     </section>
 
-    <app-portfolio-cards></app-portfolio-cards>
-    
-  </main>
+     <!-- === NEW PORTFOLIO SECTION === -->
+    <section id="portfolio" data-section class="bento-section">
+      <h2>My Work</h2>
+      <app-bento-grid [items]="workItems"></app-bento-grid>
+    </section>
 
+    <!-- === NEW CERTIFICATES SECTION === -->
+    <section id="certificates" data-section class="bento-section">
+      <h2>Certificates</h2>
+      <app-bento-grid [items]="certificateItems"></app-bento-grid>
+    </section>
+
+    <section id="contact" data-section class="placeholder-section">
+      <h2>Contact</h2>
+      <p>Coming soon...</p>
+    </section>
+  </main>
 </div>

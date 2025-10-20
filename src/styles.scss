@@ -1,4 +1,4 @@
-/* Global Styles */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 :root {
@@ -7,7 +7,7 @@
   --accent-color: #ffffff;
   --grid-color: rgba(255, 255, 255, 0.05);
   --gradient-1: rgba(138, 43, 226, 0.3); // Purple
-  --gradient-2: rgba(0, 191, 255, 0.3); // Blue
+  --gradient-2: rgba(0, 191, 255, 0.3);   // Blue
 }
 
 body {
@@ -35,20 +35,36 @@ body {
     filter: blur(100px);
     opacity: 0.3;
     z-index: -1;
+    pointer-events: none;
   }
 
   &::before {
     background-color: var(--gradient-1);
     top: -200px;
     left: -200px;
+    animation: moveGradientOne 20s alternate infinite linear;
   }
 
   &::after {
     background-color: var(--gradient-2);
     bottom: -200px;
     right: -200px;
+    animation: moveGradientTwo 25s alternate infinite linear;
   }
 }
+
+@keyframes moveGradientOne {
+  to {
+    transform: translate(100px, 200px);
+  }
+}
+
+@keyframes moveGradientTwo {
+  to {
+    transform: translate(-100px, -200px);
+  }
+}
+
 
 * {
   box-sizing: border-box;

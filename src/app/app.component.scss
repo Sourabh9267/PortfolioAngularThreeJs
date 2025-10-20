@@ -16,7 +16,6 @@
 }
 
 .hero-left {
-   color: var(--text-color);
   h1 {
     font-size: 4rem;
     line-height: 1.1;
@@ -30,7 +29,6 @@
 }
 
 .hero-right {
-   color: var(--text-color);
   text-align: right;
   p {
     font-size: 1.5rem;
@@ -46,6 +44,7 @@
 }
 
 .about-section {
+  padding-top: 100px; // Add padding to the first real section to clear the header
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -57,4 +56,69 @@
   h2 { font-size: 3rem; }
   p { font-size: 1.2rem; max-width: 600px; }
   h3 { font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; }
+}
+
+.placeholder-section {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+// --- RESPONSIVE ADJUSTMENTS ---
+@media (max-width: 1024px) {
+  .hero-section {
+    grid-template-columns: 1fr 1fr; // 2 columns for tablet
+    .hero-center {
+      grid-column: 1 / -1; // Span full width
+      grid-row: 1;
+      opacity: 0.3; // Make model a background element
+    }
+    .hero-left, .hero-right {
+      grid-row: 1;
+      z-index: 10;
+      backdrop-filter: blur(15px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    display: flex; // Stack everything vertically
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    .hero-center {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+    }
+    .hero-left {
+      h1 {
+        font-size: 3rem;
+        strong { font-size: 4rem; }
+      }
+    }
+    .hero-right {
+      text-align: center;
+    }
+  }
+}
+
+
+
+// --- NEW STYLES FOR BENTO SECTIONS ---
+.bento-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+  
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 }

@@ -1,12 +1,12 @@
+import { NgFor } from '@angular/common';
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { gsap } from 'gsap';
-import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-word-cycler',
   templateUrl: './word-cycler.component.html',
   styleUrls: ['./word-cycler.component.scss'],
-   imports: [NgFor]
+  imports: [NgFor]
 })
 export class WordCyclerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('wordsContainer') private wordsContainerRef!: ElementRef;
@@ -22,6 +22,7 @@ export class WordCyclerComponent implements AfterViewInit, OnDestroy {
     if (this.wordsContainerRef) {
       const container = this.wordsContainerRef.nativeElement;
       const wordElements = container.querySelectorAll('.word');
+      if (wordElements.length === 0) return;
       const wordHeight = wordElements[0].clientHeight;
 
       this.timeline = gsap.timeline({ repeat: -1 });

@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { gsap } from 'gsap/all';
+import { gsap } from 'gsap/all'; // Use 'all' for guaranteed plugin access
 
 @Component({
   selector: 'app-words-loader',
@@ -16,50 +16,71 @@ export class WordsLoaderComponent implements AfterViewInit, OnChanges, OnDestroy
 
   private words: string[] = [
     "Hello", "Hola", "Bonjour", "Hallo", "Ciao", "Olá", "你好", "こんにちは", "안녕하세요", "Привет", 
-    "नमस्ते", "السلام عليكم", "Shalom", "Guten Tag", "Hej", "Merhaba", "Yia sas", "Cześć", 
-    "Szia", "Ahoj", "Sawasdee", "Jambo"
+    "नमस्ते", "السلام عليكم", "Shalom", "Guten Tag", "Hej", "Merhaba", "Yia sas", "Cześć"
   ];
-  private introTimeline: gsap.core.Timeline | null = null;
+  private wordIndex = 0;
+  private isHiding = false;
+  private currentTween: gsap.core.Timeline | null = null;
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.playIntro(), 0);
+    setTimeout(() => {
+      if (this.wordRef) {
+        gsap.set(this.wordRef.nativeElement, { textContent: this.words[0], opacity: 1 });
+        this.wordIndex = 1;
+        // --- SPEED INCREASE: REDUCED INITIAL PAUSE ---
+        setTimeout(() => this.cycleWords(), 500); // Was 800ms, now 500ms
+      }
+    }, 100);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isLoading'] && !changes['isLoading'].currentValue) {
+      this.isHiding = true;
       this.hideLoader();
     }
   }
 
-  private playIntro(): void {
-    if (this.wordRef) {
-      const target = this.wordRef.nativeElement;
-      this.introTimeline = gsap.timeline({ repeat: -1 });
+  private cycleWords(): void {
+    if (this.isHiding || !this.wordRef) return;
 
-      const timeline = this.introTimeline;
-      if (timeline) {
-        // --- FAST SCRAMBLE ANIMATION ---
-        this.words.forEach((word) => {
-          timeline.to(target, {
-            duration: 0.8,
-            scrambleText: {
-              text: word,
-              chars: "■□●○",
-              speed: 0.2,
-            },
-            ease: "power1.inOut"
-          });
-          timeline.to({}, { duration: 0.4 });
-        });
+    const target = this.wordRef.nativeElement;
+    const nextWord = this.words[this.wordIndex];
+    this.wordIndex = (this.wordIndex + 1) % this.words.length;
+
+    this.currentTween = gsap.timeline({
+      onComplete: () => {
+        this.cycleWords();
       }
-    }
+    })
+    // 1. Animate the CURRENT word out (ultra-fast)
+    .to(target, {
+      opacity: 0,
+      y: -25,
+      // --- SPEED INCREASE: DURATION REDUCED ---
+      duration: 0.2, // Was 0.3s
+      ease: 'power2.in'
+    })
+    // 2. INSTANTLY set the new word and move it below
+    .set(target, {
+      textContent: nextWord,
+      y: 25,
+    })
+    // 3. Animate the NEW word in (ultra-fast)
+    .to(target, {
+      opacity: 1,
+      y: 0,
+      // --- SPEED INCREASE: DURATION REDUCED ---
+      duration: 0.2, // Was 0.3s
+      ease: 'power2.out'
+    });
   }
 
-
   private hideLoader(): void {
-    if (this.introTimeline) {
-      this.introTimeline.kill();
+    // ... (This function remains unchanged and is correct)
+    if (this.currentTween) {
+      this.currentTween.kill();
     }
+    gsap.killTweensOf(this.wordRef.nativeElement);
 
     const topCurtain = this.curtainTopRef.nativeElement;
     const bottomCurtain = this.curtainBottomRef.nativeElement;
@@ -76,8 +97,9 @@ export class WordsLoaderComponent implements AfterViewInit, OnChanges, OnDestroy
   }
 
   ngOnDestroy(): void {
-    if (this.introTimeline) {
-      this.introTimeline.kill();
+    if (this.currentTween) {
+      this.currentTween.kill();
     }
+    gsap.killTweensOf([this.wordRef?.nativeElement, this.curtainTopRef?.nativeElement, this.curtainBottomRef?.nativeElement]);
   }
 }

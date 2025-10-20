@@ -1,0 +1,34 @@
+<header class="main-header">
+  <div class="logo">SG</div>
+
+  <nav class="desktop-nav">
+    <ul #navLinksList>
+      <li class="active-pill" #activePill></li>
+      <li *ngFor="let link of navLinks">
+        <a 
+          [href]="'#' + link" 
+          class="nav-link"
+          [class.active]="activeSection === link"
+          (mouseenter)="scrambleLink($event)">{{ link }}</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- MOBILE HAMBURGER ICON -->
+  <button class="mobile-toggler" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+    <div class="hamburger"></div>
+  </button>
+</header>
+
+<div class="mobile-menu" [class.open]="isMobileMenuOpen">
+  <nav>
+    <ul>
+      <li *ngFor="let link of navLinks">
+        <a 
+          [href]="'#' + link" 
+          (mouseenter)="scrambleLink($event)"
+          (click)="toggleMobileMenu()">{{ link }}</a>
+      </li>
+    </ul>
+  </nav>
+</div>

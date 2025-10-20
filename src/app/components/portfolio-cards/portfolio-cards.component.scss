@@ -50,3 +50,17 @@
     }
   }
 }
+
+// Responsive adjustments for cards
+@media (max-width: 768px) {
+  .cards-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+  .card {
+    flex-basis: 200px; // Give each card a fixed height on mobile
+    &:hover {
+      flex-grow: 1.5; // Slightly expand on hover
+    }
+  }
+}
