@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.cycler-wrapper {
+  // This creates the "peeking" effect by hiding the overflow
+  height: 1.2em; // Set to the height of one line of text
+  overflow: hidden;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2em;
+}
+
+.word {
+  display: block;
+}

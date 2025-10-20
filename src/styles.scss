@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+:root {
+  --background-color: #111111;
+  --text-color: #e2e2e2;
+  --accent-color: #ffffff;
+  --grid-color: rgba(255, 255, 255, 0.05);
+  --gradient-1: rgba(138, 43, 226, 0.3); // Purple
+  --gradient-2: rgba(0, 191, 255, 0.3); // Blue
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Helvetica Neue', 'Helvetica', 'Inter', sans-serif;
+  overflow-x: hidden;
+  position: relative; // Needed for pseudo-elements
+
+  // Faded grid lines background
+  background-image: 
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+
+  // Noisy Mesh Gradients
+  &::before, &::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  &::before {
+    background-color: var(--gradient-1);
+    top: -200px;
+    left: -200px;
+  }
+
+  &::after {
+    background-color: var(--gradient-2);
+    bottom: -200px;
+    right: -200px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}

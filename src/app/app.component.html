@@ -1,19 +1,34 @@
-<div class="hero-container">
-  
-  <div class="hero-text">
-    <h1>Hello, I'm Sourabh Gour</h1>
-    <p>I create amazing web experiences.</p>
+<!-- The Loader (no changes needed) -->
+<app-words-loader *ngIf="!isLoaderDestroyed" [isLoading]="isLoading" (onLoaderHidden)="onLoaderAnimationFinish()"></app-words-loader>
+
+<div class="content-wrapper" [style.opacity]="isLoaderDestroyed ? 1 : 0">
+
+  <!-- HERO SECTION -->
+  <header class="hero-section">
+    <div class="hero-left">
+      <h1>Hey, I'm <br><strong>Sourabh Gour</strong></h1>
+    </div>
+
+    <div class="hero-center">
+      <app-scene></app-scene>
+    </div>
+
+    <div class="hero-right">
+      <p>I'm a</p>
+      <app-word-cycler></app-word-cycler>
+    </div>
+  </header>
+
+  <!-- SCROLLABLE CONTENT -->
+  <main class="main-content">
+    <section class="about-section">
+      <h2>ABOUT ME</h2>
+      <p>A passionate developer and designer with a keen eye for creating engaging and beautiful digital experiences. My expertise lies in building dynamic web applications with a focus on fluid animations and intuitive user interfaces.</p>
+      <h3>SKILLS: Angular, TypeScript, Three.js, GSAP, SCSS</h3>
+    </section>
+
+    <app-portfolio-cards></app-portfolio-cards>
     
-    <!-- ADD YOUR NEW COMPONENT HERE -->
-    <app-text-scramble></app-text-scramble>
-  </div>
-  
-  <div class="scene-wrapper">
-    <app-scene></app-scene>
-  </div>
+  </main>
 
-</div>
-
-<div class="content-section">
-  <!-- Your other content -->
 </div>

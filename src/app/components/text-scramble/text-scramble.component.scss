@@ -1,8 +1,9 @@
 .scramble-container {
   font-size: 3rem;
   font-weight: 700;
-  font-family: 'Arial', sans-serif; // Choose a font you like
-  color: #1a1a1a;
+  font-family: 'Helvetica', 'Inter', sans-serif;
+  // --- THIS IS THE FIX ---
+  color: var(--text-color); // Use the light text color from our global styles
   text-transform: uppercase;
   padding: 1rem 0;
 }
