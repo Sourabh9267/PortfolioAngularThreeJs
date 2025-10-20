@@ -37,12 +37,32 @@ export class AppComponent implements OnInit {
     { id: 3, title: 'Cert Three', description: 'This one was really hard to get!', mediaUrl: 'assets/Certificate1.jpg', spanRows: 1, spanCols: 1 },
     { id: 4, title: 'Cert Four', description: 'A foundational certificate.', mediaUrl: 'assets/Certificate1.jpg', spanRows: 1, spanCols: 1 },
   ];
-  ngOnInit(): void {
-    setTimeout(() => { this.isLoading = false; }, 500);
+ngOnInit(): void {
+    // --- NEW, ROBUST LOADER LOGIC ---
+    
+    // Promise 1: Resolves after a minimum of 3 seconds
+    const minTimePromise = new Promise<void>(resolve => {
+      setTimeout(resolve, 3000); // 3-second minimum display time
+    });
+
+    // Promise 2: Resolves when the onSceneInitialized event is fired
+    const sceneReadyPromise = new Promise<void>(resolve => {
+      this.resolveSceneReady = resolve;
+    });
+
+    // Wait for BOTH promises to complete
+    Promise.all([minTimePromise, sceneReadyPromise]).then(() => {
+      this.isLoading = false;
+    });
   }
 
+  // This is a private function that will be assigned to the Promise resolver
+  private resolveSceneReady: () => void = () => {};
+
+  // This is called by the SceneComponent when the 3D model is loaded
   onSceneInitialized(): void {
-    this.isLoading = false;
+    // When the scene is ready, call the resolver to complete the promise
+    this.resolveSceneReady();
   }
 
   onLoaderAnimationFinish(): void {

@@ -2,41 +2,130 @@
   transition: opacity 0.5s ease-in-out;
 }
 
-// Hero Section sticks to the top while scrolling
+// --- SHARED HERO STYLES ---
 .hero-section {
   height: 100vh;
   width: 100%;
   position: sticky;
   top: 0;
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr; // 3 columns: left, center, right
   align-items: center;
   padding: 2rem;
   z-index: 1;
 }
 
-.hero-left {
-  h1 {
-    font-size: 4rem;
-    line-height: 1.1;
-    strong { font-size: 5rem; }
+.hero-left h1 {
+  margin: 0;
+  line-height: 1.1;
+  display: block; // Allows spans to stack
+
+  .intro-text {
+    display: block;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 400;
+  }
+
+  .name-text {
+    display: block;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    white-space: nowrap; // Only this part will not wrap
+
+    // --- GRADIENT TEXT CLIP EFFECT ---
+    background: linear-gradient(45deg, #a594fd, #f28ab2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
   }
 }
 
 .hero-center {
   width: 100%;
   height: 100%;
+  // Apply the "pinch" to the canvas container
+  width: 60%;
+  justify-self: center;
 }
 
 .hero-right {
   text-align: right;
-  p {
-    font-size: 1.5rem;
-    margin: 0;
+  p { font-size: 1.5rem; margin: 0; }
+  // Adjust the cycler font size to be responsive
+  app-word-cycler {
+    --word-font-size: clamp(2rem, 6vw, 4rem);
   }
 }
 
-// Main content scrolls over the hero section
+// --- DESKTOP LAYOUT (Default: 1024px and wider) ---
+.hero-section {
+  grid-template-columns: 1fr 1.5fr 1fr;
+  
+  .hero-left { grid-column: 1; }
+  .hero-center { grid-column: 2; }
+  .hero-right { grid-column: 3; }
+}
+
+// --- TABLET LAYOUT (768px to 1023px) ---
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero-section {
+    grid-template-columns: 1fr 1fr; // 2 columns
+    gap: 2rem;
+
+    .hero-center {
+      grid-column: 1;
+      grid-row: 1; // Explicitly place in row 1
+      width: 100%; // Take up the full cell
+    }
+
+    // Move the text elements to the second column
+    .hero-left, .hero-right {
+      grid-column: 2;
+      grid-row: 1; // Place both in the same row
+      z-index: 10;
+      text-align: left;
+    }
+    
+    // Stack them using grid alignment within their cell
+  .hero-left {align-self: start;
+        padding-bottom: 12px;
+        margin-top: 200px;}
+    .hero-right { align-self: center; padding-top: 12px; }
+  }
+}
+
+// --- MOBILE LAYOUT (Screens smaller than 767px) ---
+@media (max-width: 767px) {
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+
+    .hero-center {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 1.15;
+      z-index: -1;
+      width: 100%;
+    }
+    
+    .hero-left, .hero-right {
+      z-index: 10;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .hero-left {
+      
+      margin-bottom: 3rem;
+  }
+}
+}
+
+// --- Main Content Styles (Unchanged) ---
 .main-content {
   position: relative;
   z-index: 2;
@@ -44,7 +133,7 @@
 }
 
 .about-section {
-  padding-top: 100px; // Add padding to the first real section to clear the header
+  padding-top: 100px;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -67,50 +156,6 @@
   text-align: center;
 }
 
-// --- RESPONSIVE ADJUSTMENTS ---
-@media (max-width: 1024px) {
-  .hero-section {
-    grid-template-columns: 1fr 1fr; // 2 columns for tablet
-    .hero-center {
-      grid-column: 1 / -1; // Span full width
-      grid-row: 1;
-      opacity: 0.3; // Make model a background element
-    }
-    .hero-left, .hero-right {
-      grid-row: 1;
-      z-index: 10;
-      backdrop-filter: blur(15px);
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section {
-    display: flex; // Stack everything vertically
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    .hero-center {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 1;
-    }
-    .hero-left {
-      h1 {
-        font-size: 3rem;
-        strong { font-size: 4rem; }
-      }
-    }
-    .hero-right {
-      text-align: center;
-    }
-  }
-}
-
-
-
-// --- NEW STYLES FOR BENTO SECTIONS ---
 .bento-section {
   padding: 4rem 2rem;
   max-width: 1200px;

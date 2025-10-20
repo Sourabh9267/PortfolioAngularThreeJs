@@ -6,20 +6,27 @@
   (onLoaderHidden)="onLoaderAnimationFinish()">
 </app-words-loader>
 
-<div class.bind="content-wrapper" [style.opacity]="isLoaderDestroyed ? 1 : 0">
+<div class="content-wrapper" [style.opacity]="isLoaderDestroyed ? 1 : 0">
 
   <section id="home" data-section class="hero-section">
+    
+    <!-- We will use this SINGLE set of elements for ALL screen sizes -->
     <div class="hero-left">
-      <h1>Hey, I'm <br><strong>Sourabh Gour</strong></h1>
+      <h1>
+        <span class="intro-text">Hey, I'm</span>
+        <span class="name-text">Sourabh Gour</span>
+      </h1>
     </div>
+
     <div class="hero-center">
-      <!-- Added the event listener here -->
       <app-scene (onSceneReady)="onSceneInitialized()"></app-scene>
     </div>
+
     <div class="hero-right">
       <p>I'm a</p>
       <app-word-cycler></app-word-cycler>
     </div>
+
   </section>
 
   <main class="main-content">

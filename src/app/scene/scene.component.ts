@@ -40,7 +40,7 @@ export class SceneComponent implements AfterViewInit, OnDestroy {
   private readonly BASE_ROTATION_Y = 0.5;
   private readonly CAMERA_Y_OFFSET = 0;
   private readonly CAMERA_X_OFFSET = 0;
-  private readonly CAMERA_Z_MULTIPLIER = 0.9;
+  private readonly CAMERA_Z_MULTIPLIER = 0.8;
   private readonly MAX_UPWARD_TILT = 0.2;
   private readonly MAX_DOWNWARD_TILT = 4.5;
   private readonly NECK_SIDE_SENSITIVITY = 3.2;
