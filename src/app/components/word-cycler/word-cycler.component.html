@@ -1,7 +1,5 @@
-<div class="cycler-wrapper">
-  <div class="words-container" #wordsContainer>
-    <div class="word" *ngFor="let word of words">{{ word }}</div>
-    <!-- Duplicate the first word at the end for a seamless loop -->
-    <div class="word">{{ words[0] }}</div>
+<div #wordsContainer class="words-container">
+  <div class="word" *ngFor="let word of words" [attr.data-text]="word">
+    {{ word }}
   </div>
 </div>

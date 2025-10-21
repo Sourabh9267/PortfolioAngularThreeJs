@@ -1,16 +1,69 @@
 :host {
   display: block;
-}
-
-.cycler-wrapper {
-  // This creates the "peeking" effect by hiding the overflow
-  height: 1.2em; // Set to the height of one line of text
   overflow: hidden;
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.2em;
+  height: var(--word-font-size, 3rem);
+  position: relative;
 }
 
-.word {
-  display: block;
+.words-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  
+  .word {
+    font-size: var(--word-font-size, 3rem);
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.2;
+    height: var(--word-font-size, 3rem);
+    display: flex;
+    align-items: center;
+    
+    // Gradient text effect matching the name
+    background: linear-gradient(
+      135deg, 
+      #a594fd 0%, 
+      #d4a5f9 25%,
+      #f28ab2 50%,
+      #ff9a9e 75%,
+      #fad0c4 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+    
+    // Add a subtle text shadow for depth (works on non-clipped elements)
+    position: relative;
+    
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      z-index: -1;
+      background: linear-gradient(135deg, rgba(165, 148, 253, 0.3), rgba(242, 138, 178, 0.3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: blur(8px);
+    }
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+// Responsive font sizing
+@media (max-width: 767px) {
+  :host {
+    height: var(--word-font-size, 2.5rem);
+  }
+  
+  .words-container .word {
+    height: var(--word-font-size, 2.5rem);
+  }
 }

@@ -1,6 +1,47 @@
-:host, .scene-canvas {
-  // Make the canvas fill its container (the .scene-wrapper)
+// The host element and canvas should fill their parent container
+:host {
+  display: block;
   width: 100%;
   height: 100%;
+  position: relative;
+  
+  // Ensure no overflow from the canvas
+  overflow: hidden;
+}
+
+.scene-canvas {
   display: block;
+  width: 100%;
+  height: 100%;
+  
+  // Prevent any outline/border that might cause overflow
+  outline: none;
+  border: none;
+  
+  // Smooth rendering
+  image-rendering: optimizeQuality;
+  
+  // Cursor interaction
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+// Optional: Add a subtle vignette effect around the canvas
+:host::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  z-index: 1;
 }
