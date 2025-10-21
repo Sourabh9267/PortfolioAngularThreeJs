@@ -1,13 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
+@font-face {
+  font-family: 'Amsterdam Three';
+  src: url(assets/fonts/AmsterdamThree.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'NeueMachina';
+  src: url(assets/fonts/NeueMachinaRegular.otf) format('opentype');
+}
+
 :root {
   --background-color: #0a0a0a;
   --text-color: #e8e8e8;
   --accent-color: #ffffff;
-  --grid-color: rgba(255, 255, 255, 0.03);
-  --gradient-1: rgba(138, 43, 226, 0.4);
-  --gradient-2: rgba(0, 191, 255, 0.4);
-  --gradient-3: rgba(242, 138, 178, 0.3);
+  --grid-color: rgba(255, 255, 255, 0.096);
+  --gradient-1: rgb(159, 57, 255);
+  --gradient-2: rgb(0, 191, 255);
+  --gradient-3: rgba(255, 71, 141, 0.336);
 }
 
 * {

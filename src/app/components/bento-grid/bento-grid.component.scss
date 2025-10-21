@@ -169,12 +169,12 @@
 .modal-content {
   position: relative;
   width: 90vw;
-  height: 90vh;
+  height: 85vh;
   max-width: 1400px;
   cursor: default;
   overflow: hidden;
   border-radius: 24px;
-  background: rgba(20, 20, 20, 0.95);
+     background: #ffffff69;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
     0 24px 80px rgba(0, 0, 0, 0.8),
@@ -306,7 +306,7 @@
   
   .modal-content {
     width: 95vw;
-    height: 95vh;
+    height: 85vh;
     border-radius: 16px;
     
     .modal-close {
