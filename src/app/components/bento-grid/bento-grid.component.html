@@ -20,23 +20,25 @@
     </div>
   </div>
 </div>
+<!-- 
+  MODAL MARKUP - WRAPPED IN A PORTAL TEMPLATE 
+  This content will now be "teleported" elsewhere in the DOM.
+-->
+<ng-template cdkPortal #modalPortal="cdkPortal">
+  <div class="modal-overlay" #modalOverlay (click)="closeModal()">
+    <div class="modal-content" #modalContent (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      
+      <img *ngIf="activeItem" [src]="activeItem.mediaUrl" [alt]="activeItem.title" class="modal-media">
 
-<!-- Full Screen Modal -->
-<div class="modal-overlay" #modalOverlay (click)="closeModal()">
-  <div class="modal-content" #modalContent (click)="$event.stopPropagation()">
-    <!-- === CLOSE BUTTON IS NOW INSIDE === -->
-    <button class="modal-close" (click)="closeModal()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-    
-    <img *ngIf="activeItem" [src]="activeItem.mediaUrl" [alt]="activeItem.title" class="modal-media">
-
-    <!-- === NEW CONTENT BELT === -->
-    <div class="modal-belt" #modalBelt>
-      <div *ngIf="activeItem">
-        <h3>{{ activeItem.title }}</h3>
-        <p>{{ activeItem.description }}</p>
+      <div class="modal-belt" #modalBelt>
+        <div *ngIf="activeItem">
+          <h3>{{ activeItem.title }}</h3>
+          <p>{{ activeItem.description }}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>

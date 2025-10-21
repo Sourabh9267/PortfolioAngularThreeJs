@@ -258,3 +258,7 @@ button {
     animation: none !important;
   }
 }
+
+body.modal-active-body {
+  overflow: hidden;
+}
