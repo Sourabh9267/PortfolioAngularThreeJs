@@ -1,8 +1,10 @@
-import { Component, Input, OnDestroy, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, ApplicationRef, Injector, ComponentFactoryResolver } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import { Subscription } from 'rxjs';
+import { AnimationControlService } from '../services/animation-control.service';
+import { CdkPortal, DomPortalOutlet, PortalModule } from '@angular/cdk/portal';
 gsap.registerPlugin(ScrollTrigger);
 
 // This interface remains the same
@@ -19,11 +21,11 @@ export interface CardItem {
 @Component({
   selector: 'app-card-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,PortalModule],
   templateUrl: './card-grid.component.html',
   styleUrls: ['./card-grid.component.scss']
 })
-export class CardGridComponent implements AfterViewInit, OnDestroy,OnChanges {
+export class CardGridComponent implements AfterViewInit, OnDestroy {
   @Input() items: CardItem[] = [];
   @Input() sectionTitle: string = 'Grid Section';
  @Input() isContentVisible = false;
@@ -33,20 +35,34 @@ export class CardGridComponent implements AfterViewInit, OnDestroy,OnChanges {
   @ViewChild('overlay') overlay!: ElementRef;
   @ViewChild('overlayContent') overlayContent!: ElementRef;
 
-  isOverlayVisible = false;
+// --- Reference to the portal template ---
+  @ViewChild(CdkPortal) portal!: CdkPortal;
+  private portalHost!: DomPortalOutlet;
+
   selectedItem: CardItem | null = null;
+
+
+  isOverlayVisible = false;
   
   // This array type is correct, we just need to push the right thing into it.
   private scrollTriggers: ScrollTrigger[] = [];
- private animationsInitialized = false; // Flag to run animations only once
+ private loaderFinishedSubscription!: Subscription;
+
+
+   constructor(
+    private animationControlService: AnimationControlService,
+    // --- Inject services required for portals ---
+    private appRef: ApplicationRef,
+    private injector: Injector,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {}
   ngAfterViewInit(): void {
 
   }
-ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isContentVisible'] && changes['isContentVisible'].currentValue === true && !this.animationsInitialized) {
-      this.animationsInitialized = true;
-      setTimeout(() => this.setupScrollAnimations(), 100);
-    }
+ngOnInit(): void {
+    this.loaderFinishedSubscription = this.animationControlService.loaderFinished$.subscribe(() => {
+      setTimeout(() => this.setupScrollAnimations(), 0);
+    });
   }
 
 private setupScrollAnimations(): void {
@@ -91,18 +107,25 @@ private setupScrollAnimations(): void {
   }
   
 
-  openOverlay(item: CardItem): void {
+ openOverlay(item: CardItem): void {
     this.selectedItem = item;
-    this.isOverlayVisible = true;
+
+    // --- Create the portal host on the document body ---
+    this.portalHost = new DomPortalOutlet(
+      document.body,
+      this.componentFactoryResolver,
+      this.appRef,
+      this.injector
+    );
+
+    // --- Attach the portal to the host ---
+    this.portalHost.attach(this.portal);
     document.body.classList.add('modal-active-body');
 
+    // --- Animate using global selectors because the overlay is now on the body ---
     gsap.timeline()
-      .to(this.overlay.nativeElement, {
-        autoAlpha: 1,
-        duration: 0.4,
-        ease: 'power2.out'
-      })
-      .fromTo(this.overlayContent.nativeElement, 
+      .to('.overlay', { autoAlpha: 1, duration: 0.4, ease: 'power2.out' })
+      .fromTo('.overlay-content', 
         { scale: 0.9, opacity: 0, y: 30 },
         { scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, 
         "-=0.2"
@@ -112,26 +135,26 @@ private setupScrollAnimations(): void {
   closeOverlay(): void {
     gsap.timeline({
       onComplete: () => {
-        this.isOverlayVisible = false;
+        // --- Detach the portal to remove it from the body ---
+        if (this.portalHost && this.portalHost.hasAttached()) {
+          this.portalHost.detach();
+        }
         this.selectedItem = null;
         document.body.classList.remove('modal-active-body');
       }
     })
-      .to(this.overlayContent.nativeElement, {
-        scale: 0.9,
-        opacity: 0,
-        y: 30,
-        duration: 0.3,
-        ease: 'power2.in'
-      })
-      .to(this.overlay.nativeElement, {
-        autoAlpha: 0,
-        duration: 0.3
-      }, "-=0.1");
+      .to('.overlay-content', { scale: 0.9, opacity: 0, y: 30, duration: 0.3, ease: 'power2.in' })
+      .to('.overlay', { autoAlpha: 0, duration: 0.3 }, "-=0.1");
   }
 
   ngOnDestroy(): void {
-    // This now correctly iterates over actual ScrollTrigger instances and kills them.
+    if (this.loaderFinishedSubscription) {
+      this.loaderFinishedSubscription.unsubscribe();
+    }
     this.scrollTriggers.forEach(trigger => trigger.kill());
+    // --- Ensure the portal is cleaned up if the component is destroyed ---
+    if (this.portalHost && this.portalHost.hasAttached()) {
+      this.portalHost.detach();
+    }
   }
 }

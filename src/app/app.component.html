@@ -28,30 +28,17 @@
   </section>
 
   <main class="main-content">
-  <!-- About Section -->
-    <app-about-section 
-      id="about" 
-      data-section
-      [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
-    </app-about-section>
+    <app-about-section id="about" data-section></app-about-section>
 
-    <!-- Portfolio Section -->
     <section id="portfolio" data-section>
-      <app-card-grid 
-        [items]="workItems" 
-        sectionTitle="My Work"
-        [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
-      </app-card-grid>
+      <app-card-grid [items]="workItems" sectionTitle="My Work"></app-card-grid>
     </section>
 
-    <!-- Certificates Section -->
     <section id="certificates" data-section>
-      <app-card-grid 
-        [items]="certificateItems" 
-        sectionTitle="Certificates & Achievements"
-        [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
-      </app-card-grid>
+      <app-card-grid [items]="certificateItems" sectionTitle="Certificates & Achievements"></app-card-grid>
     </section>
+
+
 
     <!-- Contact Section -->
     <section id="contact" data-section class="contact-section">

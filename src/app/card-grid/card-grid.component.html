@@ -36,31 +36,30 @@
 </section>
 
 <!-- THE NEW, FIXED OVERLAY -->
-<div class="overlay" #overlay [class.visible]="isOverlayVisible" (click)="closeOverlay()">
-  <div class="overlay-content" #overlayContent (click)="$event.stopPropagation()">
-    <button class="close-btn" (click)="closeOverlay()" aria-label="Close details view">
-      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-    
-    <ng-container *ngIf="selectedItem">
-      <div class="overlay-media-container">
-        <img [src]="selectedItem.mediaUrl" [alt]="selectedItem.title" class="overlay-media">
-      </div>
-      <div class="overlay-info">
-        <h2 class="overlay-title">{{ selectedItem.title }}</h2>
-        <p class="overlay-description">{{ selectedItem.description }}</p>
-        <div class="overlay-tags">
-          <span *ngFor="let tag of selectedItem.tags" class="tag">{{ tag }}</span>
+<!-- THE OVERLAY IS NOW WRAPPED IN A PORTAL TEMPLATE -->
+<!-- This HTML will be teleported to the document body when needed -->
+<ng-template cdkPortal>
+  <div class="overlay" (click)="closeOverlay()">
+    <div class="overlay-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeOverlay()" aria-label="Close details view">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <ng-container *ngIf="selectedItem">
+        <div class="overlay-media-container">
+          <img [src]="selectedItem.mediaUrl" [alt]="selectedItem.title" class="overlay-media">
         </div>
-        <div class="overlay-actions">
-          <a *ngIf="selectedItem.liveUrl" [href]="selectedItem.liveUrl" target="_blank" class="action-btn">
-            View Live
-          </a>
-          <a *ngIf="selectedItem.githubUrl" [href]="selectedItem.githubUrl" target="_blank" class="action-btn secondary">
-            Source Code
-          </a>
+        <div class="overlay-info">
+          <h2 class="overlay-title">{{ selectedItem.title }}</h2>
+          <p class="overlay-description">{{ selectedItem.description }}</p>
+          <div class="overlay-tags">
+            <span *ngFor="let tag of selectedItem.tags" class="tag">{{ tag }}</span>
+          </div>
+          <div class="overlay-actions">
+            <a *ngIf="selectedItem.liveUrl" [href]="selectedItem.liveUrl" target="_blank" class="action-btn">View Live</a>
+            <a *ngIf="selectedItem.githubUrl" [href]="selectedItem.githubUrl" target="_blank" class="action-btn secondary">Source Code</a>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
-</div>
+</ng-template>

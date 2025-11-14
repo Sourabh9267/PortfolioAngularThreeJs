@@ -9,6 +9,7 @@ import { AboutSectionComponent } from './about-section/about-section.component';
 import { CardGridComponent, CardItem } from './card-grid/card-grid.component'; 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { AnimationControlService } from './services/animation-control.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class AppComponent implements OnInit, AfterViewInit {
   isLoading = true;
   isLoaderDestroyed = false;
+constructor(private animationControlService: AnimationControlService) {}
 
   // Work portfolio items
   workItems: CardItem[] = [
