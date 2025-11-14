@@ -5,7 +5,8 @@ import { SceneComponent } from './scene/scene.component';
 import { WordsLoaderComponent } from './components/words-loader/words-loader.component';
 import { WordCyclerComponent } from './components/word-cycler/word-cycler.component';
 import { HeaderComponent } from './components/header/header.component';
-import { BentoGridComponent, BentoItem } from './components/bento-grid/bento-grid.component';
+import { AboutSectionComponent } from './about-section/about-section.component';
+import { CarouselComponent, CarouselItem } from './carousel/carousel.component';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -20,8 +21,9 @@ gsap.registerPlugin(ScrollTrigger);
     SceneComponent, 
     WordsLoaderComponent,
     WordCyclerComponent, 
-    HeaderComponent, 
-    BentoGridComponent
+    HeaderComponent,
+    AboutSectionComponent,
+    CarouselComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -31,78 +33,97 @@ export class AppComponent implements OnInit, AfterViewInit {
   isLoaderDestroyed = false;
 
   // Work portfolio items
-  workItems: BentoItem[] = [
+  workItems: CarouselItem[] = [
     { 
       id: 1, 
-      title: 'Project One', 
-      description: 'A comprehensive web application built with Angular and Three.js, featuring interactive 3D elements.', 
+      title: 'Interactive 3D Portfolio', 
+      description: 'A cutting-edge portfolio website featuring real-time 3D graphics powered by Three.js, with smooth GSAP animations and a responsive design. Built with Angular 17 and TypeScript for optimal performance.', 
       mediaUrl: 'assets/Project1.gif', 
-      liveUrl: '#', 
-      spanRows: 2, 
-      spanCols: 2 
+      liveUrl: 'https://example.com/project1', 
+      githubUrl: 'https://github.com/username/project1',
+      tags: ['Angular', 'Three.js', 'GSAP', 'TypeScript', 'WebGL']
     },
     { 
       id: 2, 
-      title: 'Project Two', 
-      description: 'Modern e-commerce platform with seamless user experience and advanced filtering.', 
+      title: 'E-Commerce Platform', 
+      description: 'Modern full-stack e-commerce solution with advanced product filtering, real-time inventory management, and seamless checkout experience. Features include wishlist functionality, product recommendations, and admin dashboard.', 
       mediaUrl: 'assets/Project1.gif', 
-      liveUrl: '#', 
-      spanRows: 1, 
-      spanCols: 1 
+      liveUrl: 'https://example.com/project2',
+      githubUrl: 'https://github.com/username/project2',
+      tags: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Redux']
     },
     { 
       id: 3, 
-      title: 'Project Three', 
-      description: 'Real-time collaborative tool built with WebSockets and reactive state management.', 
+      title: 'Real-Time Collaboration Tool', 
+      description: 'WebSocket-based collaborative workspace enabling teams to work together in real-time. Features include live cursor tracking, document co-editing, video calls, and integrated task management.', 
       mediaUrl: 'assets/Project1.gif', 
-      liveUrl: '#', 
-      spanRows: 1, 
-      spanCols: 1 
+      liveUrl: 'https://example.com/project3',
+      githubUrl: 'https://github.com/username/project3',
+      tags: ['Vue.js', 'WebSockets', 'Socket.io', 'Express', 'WebRTC']
     },
     { 
       id: 4, 
-      title: 'Project Four', 
-      description: 'Data visualization dashboard with complex charts and interactive analytics.', 
+      title: 'Analytics Dashboard', 
+      description: 'Comprehensive data visualization platform with interactive charts, real-time metrics, and customizable widgets. Processes millions of data points to provide actionable business insights with beautiful D3.js visualizations.', 
       mediaUrl: 'assets/Project1.gif', 
-      liveUrl: '#', 
-      spanRows: 1, 
-      spanCols: 2 
+      liveUrl: 'https://example.com/project4',
+      githubUrl: 'https://github.com/username/project4',
+      tags: ['D3.js', 'React', 'TypeScript', 'Recharts', 'PostgreSQL']
+    },
+    { 
+      id: 5, 
+      title: 'AI Content Generator', 
+      description: 'Machine learning powered content creation platform that generates high-quality articles, social media posts, and marketing copy. Integrates with multiple AI models for diverse content types.', 
+      mediaUrl: 'assets/Project1.gif', 
+      liveUrl: 'https://example.com/project5',
+      githubUrl: 'https://github.com/username/project5',
+      tags: ['Python', 'TensorFlow', 'Next.js', 'OpenAI', 'FastAPI']
     },
   ];
 
   // Certificate items
-  certificateItems: BentoItem[] = [
+  certificateItems: CarouselItem[] = [
     { 
       id: 1, 
-      title: 'Advanced Web Development', 
-      description: 'Certification in modern web technologies including Angular, React, and Vue.js.', 
-      mediaUrl: 'assets/Certificate1.jpg', 
-      spanRows: 1, 
-      spanCols: 1 
+      title: 'Advanced Web Development Certification', 
+      description: 'Comprehensive certification covering modern web technologies including Angular, React, Vue.js, and advanced JavaScript patterns. Completed with distinction, demonstrating expertise in building scalable web applications.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['Angular', 'React', 'Vue.js', 'JavaScript', 'Web APIs']
     },
     { 
       id: 2, 
-      title: 'Three.js Mastery', 
-      description: 'Expert-level certification in 3D web graphics and interactive experiences.', 
-      mediaUrl: 'assets/Certificate1.jpg', 
-      spanRows: 1, 
-      spanCols: 1 
+      title: 'Three.js & WebGL Mastery', 
+      description: 'Expert-level certification in 3D web graphics, covering advanced Three.js techniques, shader programming, particle systems, and performance optimization for creating immersive web experiences.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['Three.js', 'WebGL', 'GLSL', '3D Graphics', 'Shaders']
     },
     { 
       id: 3, 
       title: 'UI/UX Design Professional', 
-      description: 'Comprehensive certification in user interface design and user experience principles.', 
-      mediaUrl: 'assets/Certificate1.jpg', 
-      spanRows: 1, 
-      spanCols: 1 
+      description: 'Comprehensive certification in user interface design and user experience principles, covering design thinking, prototyping, user research, accessibility, and modern design tools and methodologies.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['UI/UX', 'Figma', 'Design Thinking', 'Prototyping', 'A11y']
     },
     { 
       id: 4, 
-      title: 'Full Stack Development', 
-      description: 'Complete stack certification covering frontend, backend, and deployment.', 
-      mediaUrl: 'assets/Certificate1.jpg', 
-      spanRows: 1, 
-      spanCols: 1 
+      title: 'Full Stack Development Expert', 
+      description: 'Complete stack certification covering frontend frameworks, backend development, database design, cloud deployment, DevOps practices, and modern software architecture patterns.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['Full Stack', 'Node.js', 'Docker', 'AWS', 'CI/CD']
+    },
+    { 
+      id: 5, 
+      title: 'GSAP Animation Specialist', 
+      description: 'Advanced certification in web animation techniques using GSAP (GreenSock Animation Platform), covering ScrollTrigger, timeline animations, SVG morphing, and performance optimization.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['GSAP', 'ScrollTrigger', 'SVG', 'Animation', 'Motion Design']
+    },
+    { 
+      id: 6, 
+      title: 'TypeScript Advanced Patterns', 
+      description: 'Deep dive into TypeScript covering advanced types, generics, decorators, design patterns, and best practices for building type-safe, maintainable enterprise applications.', 
+      mediaUrl: 'assets/Certificate1.jpg',
+      tags: ['TypeScript', 'Design Patterns', 'OOP', 'Type Safety', 'Architecture']
     },
   ];
 
@@ -174,100 +195,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private setupScrollAnimations(): void {
-    // Animate about section
-    gsap.from('.about-section h2', {
+    // Additional scroll animations can be added here
+    // The individual components handle their own scroll animations
+    
+    // Example: Parallax effect on hero section
+    gsap.to('.hero-section', {
       scrollTrigger: {
-        trigger: '.about-section',
-        start: 'top 80%',
-        end: 'top 50%',
-        toggleActions: 'play none none reverse'
+        trigger: '.main-content',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: 1,
       },
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-      ease: 'power3.out'
-    });
-
-    gsap.from('.about-section p', {
-      scrollTrigger: {
-        trigger: '.about-section',
-        start: 'top 75%',
-        end: 'top 45%',
-        toggleActions: 'play none none reverse'
-      },
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      ease: 'power3.out',
-      delay: 0.2
-    });
-
-    gsap.from('.about-section h3', {
-      scrollTrigger: {
-        trigger: '.about-section',
-        start: 'top 70%',
-        end: 'top 40%',
-        toggleActions: 'play none none reverse'
-      },
-      opacity: 0,
-      y: 20,
-      duration: 0.8,
-      ease: 'power3.out',
-      delay: 0.4
-    });
-
-    // Animate bento sections
-    const bentoSections = document.querySelectorAll('.bento-section');
-    bentoSections.forEach((section) => {
-      // Animate section heading
-      const heading = section.querySelector('h2');
-      if (heading) {
-        gsap.from(heading, {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            end: 'top 50%',
-            toggleActions: 'play none none reverse'
-          },
-          opacity: 0,
-          y: 40,
-          duration: 0.8,
-          ease: 'power3.out'
-        });
-      }
-
-      // Animate bento items with stagger
-      const bentoItems = section.querySelectorAll('.bento-item');
-      if (bentoItems.length > 0) {
-        gsap.from(bentoItems, {
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 75%',
-            end: 'top 45%',
-            toggleActions: 'play none none reverse'
-          },
-          opacity: 0,
-          y: 40,
-          scale: 0.95,
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.1
-        });
-      }
-    });
-
-    // Animate contact section
-    gsap.from('.placeholder-section', {
-      scrollTrigger: {
-        trigger: '.placeholder-section',
-        start: 'top 80%',
-        end: 'top 50%',
-        toggleActions: 'play none none reverse'
-      },
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: 'power3.out'
+      opacity: 0.3,
+      scale: 0.95,
+      ease: 'none'
     });
   }
 }

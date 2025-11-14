@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @font-face {
   font-family: 'Amsterdam Three';
@@ -14,10 +14,16 @@
   --background-color: #0a0a0a;
   --text-color: #e8e8e8;
   --accent-color: #ffffff;
-  --grid-color: rgba(255, 255, 255, 0.096);
-  --gradient-1: rgb(159, 57, 255);
-  --gradient-2: rgb(0, 191, 255);
-  --gradient-3: rgba(255, 71, 141, 0.336);
+  --grid-color: rgba(255, 255, 255, 0.08);
+  
+  // Updated gradient colors - lighter yellows
+  --gradient-1: rgb(255, 220, 100);  // Bright warm yellow
+  --gradient-2: rgb(255, 200, 120);  // Soft golden yellow
+  --gradient-3: rgba(255, 230, 150, 0.4); // Light peachy yellow
+  
+  // Accent gradients
+  --accent-gradient: linear-gradient(135deg, #FFE066 0%, #FFD280 50%, #FFC899 100%);
+  --text-gradient: linear-gradient(135deg, #fff 0%, #FFE066 100%);
 }
 
 * {
@@ -41,131 +47,153 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  // Enhanced grid pattern with subtle animation
+  // Enhanced grid pattern - keeping it visible
   background-image: 
     linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
   background-size: 60px 60px;
   background-position: center center;
   
-  // Animated gradient orbs
+  // Animated gradient orbs with new yellow theme
   &::before, &::after {
     content: '';
     position: fixed;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.4;
+    filter: blur(140px);
+    opacity: 0.35;
     z-index: -1;
     pointer-events: none;
     will-change: transform;
   }
 
   &::before {
-    width: 800px;
-    height: 800px;
+    width: 900px;
+    height: 900px;
     background: radial-gradient(
       circle at center,
       var(--gradient-1) 0%,
       transparent 70%
     );
-    top: -300px;
-    left: -300px;
-    animation: moveGradientOne 25s ease-in-out alternate infinite;
+    top: -350px;
+    left: -350px;
+    animation: moveGradientOne 28s ease-in-out alternate infinite;
   }
 
   &::after {
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
     background: radial-gradient(
       circle at center,
       var(--gradient-2) 0%,
       transparent 70%
     );
-    bottom: -200px;
-    right: -200px;
-    animation: moveGradientTwo 30s ease-in-out alternate infinite;
+    bottom: -250px;
+    right: -250px;
+    animation: moveGradientTwo 32s ease-in-out alternate infinite;
   }
 }
 
-// Enhanced gradient animations
+// Third ambient gradient for depth
+body {
+  position: relative;
+  
+  &::after {
+    box-shadow: 0 0 250px 120px var(--gradient-3);
+  }
+}
+
+// Enhanced gradient animations with more fluid movement
 @keyframes moveGradientOne {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1) rotate(0deg);
   }
-  33% {
-    transform: translate(150px, 100px) scale(1.1);
+  25% {
+    transform: translate(180px, 120px) scale(1.15) rotate(45deg);
   }
-  66% {
-    transform: translate(-50px, 200px) scale(0.9);
+  50% {
+    transform: translate(-80px, 240px) scale(0.95) rotate(90deg);
+  }
+  75% {
+    transform: translate(120px, -60px) scale(1.05) rotate(135deg);
   }
   100% {
-    transform: translate(100px, -50px) scale(1);
+    transform: translate(0, 0) scale(1) rotate(180deg);
   }
 }
 
 @keyframes moveGradientTwo {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) scale(1) rotate(180deg);
   }
-  33% {
-    transform: translate(-100px, -150px) scale(1.15);
+  25% {
+    transform: translate(-140px, -180px) scale(1.2) rotate(225deg);
   }
-  66% {
-    transform: translate(80px, -80px) scale(0.95);
+  50% {
+    transform: translate(100px, -100px) scale(0.9) rotate(270deg);
+  }
+  75% {
+    transform: translate(-160px, 120px) scale(1.1) rotate(315deg);
   }
   100% {
-    transform: translate(-120px, 100px) scale(1.05);
+    transform: translate(0, 0) scale(1) rotate(360deg);
   }
 }
 
-// Third gradient orb for more depth (mobile-only for performance)
-@media (min-width: 768px) {
-  body {
-    &::after {
-      box-shadow: 0 0 200px 100px var(--gradient-3);
-    }
-  }
-}
-
-// Selection styling
+// Selection styling with yellow theme
 ::selection {
-  background-color: rgba(165, 148, 253, 0.3);
+  background-color: rgba(255, 220, 100, 0.25);
   color: var(--text-color);
 }
 
 ::-moz-selection {
-  background-color: rgba(165, 148, 253, 0.3);
+  background-color: rgba(255, 220, 100, 0.25);
   color: var(--text-color);
 }
 
-// Scrollbar styling
+// Enhanced scrollbar styling
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--background-color);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 5px;
+  background: linear-gradient(180deg, 
+    rgba(255, 220, 100, 0.3) 0%, 
+    rgba(255, 200, 120, 0.3) 100%
+  );
+  border-radius: 6px;
+  border: 2px solid var(--background-color);
   
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: linear-gradient(180deg, 
+      rgba(255, 220, 100, 0.5) 0%, 
+      rgba(255, 200, 120, 0.5) 100%
+    );
+  }
+  
+  &:active {
+    background: linear-gradient(180deg, 
+      rgba(255, 220, 100, 0.7) 0%, 
+      rgba(255, 200, 120, 0.7) 100%
+    );
   }
 }
 
 // Focus styles for accessibility
 *:focus-visible {
-  outline: 2px solid rgba(165, 148, 253, 0.5);
-  outline-offset: 2px;
+  outline: 2px solid rgba(255, 220, 100, 0.6);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-// Smooth transitions for theme changes
+// Smooth transitions
 * {
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 // Prevent layout shift
@@ -179,10 +207,11 @@ img, video {
 a {
   color: inherit;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   
   &:hover {
-    opacity: 0.8;
+    opacity: 0.85;
+    transform: translateY(-1px);
   }
 }
 
@@ -193,6 +222,11 @@ button {
   color: inherit;
   font-family: inherit;
   cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 // Utility classes
@@ -203,25 +237,20 @@ button {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #a594fd 0%, #f28ab2 100%);
+  background: var(--text-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
 }
 
-// Animations
+.accent-gradient {
+  background: var(--accent-gradient);
+}
+
+// Enhanced keyframe animations
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -232,14 +261,122 @@ button {
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+// Shimmer effect for loading states
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 220, 100, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+// Glassmorphism utility
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+// Glow effect utility
+.glow {
+  box-shadow: 
+    0 0 20px rgba(255, 220, 100, 0.3),
+    0 0 40px rgba(255, 220, 100, 0.2),
+    0 0 60px rgba(255, 220, 100, 0.1);
+}
+
+// Text reveal utility
+.text-reveal {
+  overflow: hidden;
+  
+  span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(100%);
+    animation: revealText 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+}
+
+@keyframes revealText {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Hover lift effect
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -259,6 +396,100 @@ button {
   }
 }
 
+// Modal active state
 body.modal-active-body {
   overflow: hidden;
+}
+
+// Custom cursor for interactive elements
+.interactive {
+  cursor: pointer;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 220, 100, 0.2);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+  
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Loading spinner
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--gradient-1);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive typography
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 13px;
+  }
+  
+  body::before {
+    width: 600px;
+    height: 600px;
+  }
+  
+  body::after {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  :root {
+    --grid-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  body::before,
+  body::after {
+    opacity: 0.5;
+  }
+}
+
+// Dark mode support (if needed in future)
+@media (prefers-color-scheme: dark) {
+  // Already in dark mode, but keeping for future light mode toggle
+}
+
+// Print styles
+@media print {
+  body::before,
+  body::after {
+    display: none;
+  }
+  
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
