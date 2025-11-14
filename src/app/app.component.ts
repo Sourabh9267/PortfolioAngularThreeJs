@@ -6,7 +6,7 @@ import { WordsLoaderComponent } from './components/words-loader/words-loader.com
 import { WordCyclerComponent } from './components/word-cycler/word-cycler.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AboutSectionComponent } from './about-section/about-section.component';
-import { CarouselComponent, CarouselItem } from './carousel/carousel.component';
+import { CardGridComponent, CardItem } from './card-grid/card-grid.component'; 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -23,7 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
     WordCyclerComponent, 
     HeaderComponent,
     AboutSectionComponent,
-    CarouselComponent
+    CardGridComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isLoaderDestroyed = false;
 
   // Work portfolio items
-  workItems: CarouselItem[] = [
+  workItems: CardItem[] = [
     { 
       id: 1, 
       title: 'Interactive 3D Portfolio', 
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ];
 
   // Certificate items
-  certificateItems: CarouselItem[] = [
+  certificateItems: CardItem[] = [
     { 
       id: 1, 
       title: 'Advanced Web Development Certification', 

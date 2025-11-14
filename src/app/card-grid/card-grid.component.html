@@ -1,0 +1,66 @@
+<section class="grid-section" #gridSection>
+  <div class="container">
+    <h2 class="section-heading" #heading>{{ sectionTitle }}</h2>
+
+    <div class="card-grid" #grid>
+      <!-- Card Loop -->
+      <div class="card" *ngFor="let item of items">
+        <div class="card-media-container">
+          <img [src]="item.mediaUrl" [alt]="item.title" class="card-media">
+          <div class="media-overlay"></div>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-description">{{ item.description }}</p>
+          <div class="card-tags">
+            <span *ngFor="let tag of item.tags" class="tag">{{ tag }}</span>
+          </div>
+          <div class="card-actions">
+            <!-- The main "View" button to open the overlay -->
+            <button class="action-btn view-btn" (click)="openOverlay(item)">
+              View Details
+            </button>
+            <div class="external-links">
+              <a *ngIf="item.liveUrl" [href]="item.liveUrl" target="_blank" class="action-btn" (click)="$event.stopPropagation()">
+                View
+              </a>
+              <a *ngIf="item.githubUrl" [href]="item.githubUrl" target="_blank" class="action-btn secondary" (click)="$event.stopPropagation()">
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE NEW, FIXED OVERLAY -->
+<div class="overlay" #overlay [class.visible]="isOverlayVisible" (click)="closeOverlay()">
+  <div class="overlay-content" #overlayContent (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeOverlay()" aria-label="Close details view">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    
+    <ng-container *ngIf="selectedItem">
+      <div class="overlay-media-container">
+        <img [src]="selectedItem.mediaUrl" [alt]="selectedItem.title" class="overlay-media">
+      </div>
+      <div class="overlay-info">
+        <h2 class="overlay-title">{{ selectedItem.title }}</h2>
+        <p class="overlay-description">{{ selectedItem.description }}</p>
+        <div class="overlay-tags">
+          <span *ngFor="let tag of selectedItem.tags" class="tag">{{ tag }}</span>
+        </div>
+        <div class="overlay-actions">
+          <a *ngIf="selectedItem.liveUrl" [href]="selectedItem.liveUrl" target="_blank" class="action-btn">
+            View Live
+          </a>
+          <a *ngIf="selectedItem.githubUrl" [href]="selectedItem.githubUrl" target="_blank" class="action-btn secondary">
+            Source Code
+          </a>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

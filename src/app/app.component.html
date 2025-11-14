@@ -28,23 +28,29 @@
   </section>
 
   <main class="main-content">
-    <!-- New About Section with Apple-style text reveal -->
-    <app-about-section id="about" data-section></app-about-section>
+  <!-- About Section -->
+    <app-about-section 
+      id="about" 
+      data-section
+      [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
+    </app-about-section>
 
-    <!-- Portfolio Section with Carousel -->
+    <!-- Portfolio Section -->
     <section id="portfolio" data-section>
-      <app-carousel 
+      <app-card-grid 
         [items]="workItems" 
-        [sectionTitle]="'My Work'">
-      </app-carousel>
+        sectionTitle="My Work"
+        [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
+      </app-card-grid>
     </section>
 
-    <!-- Certificates Section with Carousel -->
+    <!-- Certificates Section -->
     <section id="certificates" data-section>
-      <app-carousel 
+      <app-card-grid 
         [items]="certificateItems" 
-        [sectionTitle]="'Certificates & Achievements'">
-      </app-carousel>
+        sectionTitle="Certificates & Achievements"
+        [isContentVisible]="isLoaderDestroyed">  <!-- ADD THIS LINE -->
+      </app-card-grid>
     </section>
 
     <!-- Contact Section -->

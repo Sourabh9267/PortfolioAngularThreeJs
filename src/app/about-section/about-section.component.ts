@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -123,74 +123,59 @@ interface Skill {
     }
 
     .skill-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.875rem 1.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 100px;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, var(--skill-color), transparent);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: 0;
-      }
-      
-      &:hover {
-        transform: translateY(-4px);
-        border-color: var(--skill-color);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
-                    0 0 0 1px var(--skill-color);
-        
-        &::before {
-          opacity: 0.15;
-        }
-        
-        .skill-icon {
-          transform: scale(1.1) rotate(5deg);
-        }
-      }
-    }
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem; // Slightly adjusted padding
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default; // Changed to default as it's not clickable
+  position: relative;
+  overflow: hidden;
 
+  // Using the skill-color variable for a glow effect
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 220, 100, 0.4); // Use accent color
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 220, 100, 0.2); // Added glow
+    
     .skill-icon {
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      z-index: 1;
-      
-      :deep(svg) {
-        width: 100%;
-        height: 100%;
-        fill: currentColor;
-      }
+      transform: scale(1.1) rotate(5deg);
     }
+  }
+}
 
-    .skill-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-      position: relative;
-      z-index: 1;
-      color: rgba(255, 255, 255, 0.9);
-    }
+.skill-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+  color: var(--skill-color); // Apply color to the icon wrapper
+  
+  :deep(svg) {
+    width: 100%;
+    height: 100%;
+    fill: currentColor; // SVG will inherit the color
+  }
+}
+
+.skill-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.9);
+}
 
     @media (max-width: 768px) {
       .about-section {
@@ -211,15 +196,16 @@ interface Skill {
     }
   `]
 })
-export class AboutSectionComponent implements AfterViewInit, OnDestroy {
+export class AboutSectionComponent implements AfterViewInit, OnDestroy,OnChanges {
+  @Input() isContentVisible = false;
   @ViewChild('aboutSection') aboutSection!: ElementRef;
   @ViewChild('heading') heading!: ElementRef;
   @ViewChild('aboutText') aboutText!: ElementRef;
   @ViewChild('aboutText2') aboutText2!: ElementRef;
   @ViewChild('skillsHeading') skillsHeading!: ElementRef;
   @ViewChild('skillsGrid') skillsGrid!: ElementRef;
-
   private scrollTriggers: ScrollTrigger[] = [];
+  private animationsInitialized = false; // Flag to run animations only once
 
   skills: Skill[] = [
     { 
@@ -275,20 +261,30 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
   ];
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.setupAnimations();
-    }, 100);
+   
+  }
+
+  // The logic is moved to ngOnChanges
+  ngOnChanges(changes: SimpleChanges): void {
+    // Check if isContentVisible has changed to true and animations haven't been set up yet
+    if (changes['isContentVisible'] && changes['isContentVisible'].currentValue === true && !this.animationsInitialized) {
+      this.animationsInitialized = true;
+      // Use a timeout to ensure the DOM is fully painted after the opacity change
+      setTimeout(() => {
+        this.setupAnimations();
+      }, 100);
+    }
   }
 
   private setupAnimations(): void {
+    if (!this.aboutSection?.nativeElement) return;
+
     // Heading animation
     const headingSplit = new SplitText(this.heading.nativeElement, { type: 'chars' });
-    
     gsap.from(headingSplit.chars, {
       scrollTrigger: {
         trigger: this.aboutSection.nativeElement,
         start: 'top 80%',
-        end: 'top 50%',
         toggleActions: 'play none none reverse'
       },
       opacity: 0,
@@ -327,11 +323,7 @@ export class AboutSectionComponent implements AfterViewInit, OnDestroy {
       opacity: 0,
       scale: 0.8,
       y: 30,
-      stagger: {
-        amount: 0.6,
-        from: 'start',
-        ease: 'power2.out'
-      },
+      stagger: 0.1, // Adjusted stagger for better effect
       duration: 0.6,
       ease: 'back.out(1.7)'
     });
